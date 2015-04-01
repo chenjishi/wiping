@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">GlassWipe</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="loading">正在加载…</string>
+    <string name="page_next">显示下一页</string>
+    <string name="image_save_success">下载成功!</string>
+    <string name="image_save_fail">下载失败,请重试&#8230;</string>
+    <string name="feedback">意见反馈</string>
+    <string name="about_tip">如果有一天你发现访问不了内容了，请关注版本更新</string>
+    <string name="about">关于</string>
+    <string name="cache_clear">"清理缓存(已占用%1$s)"</string>
+    <string name="email_choose">选择邮箱</string>
+    <string name="scrap_text">刮开有惊喜</string>
+    <string name="loading_tips">图片加载中&#8230;</string>
+</resources>
