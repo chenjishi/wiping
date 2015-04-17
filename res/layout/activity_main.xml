@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+    <TextView
+            android:id="@+id/photo_upload"
+            android:layout_width="match_parent"
+            android:layout_height="62dp"
+            android:background="@drawable/card_bkg"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            android:text="试试上传照片"
+            android:textColor="@color/text_regular"
+            android:textSize="16sp"
+            android:gravity="center"/>
     <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipe_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp">
         <GridView
                 android:id="@+id/grid_view"
                 android:layout_width="match_parent"
@@ -18,7 +32,6 @@
                 android:scrollbarTrackVertical="@drawable/scrollbar_vertical_track"
                 android:scrollbarThumbVertical="@drawable/scrollbar_vertical_thumb"
                 android:paddingLeft="8dp"
-                android:paddingTop="16dp"
                 android:paddingRight="8dp"
                 android:paddingBottom="16dp"
                 android:horizontalSpacing="8dp"
@@ -26,4 +39,4 @@
                 android:scrollbarSize="4dp"
                 android:fadingEdge="none"/>
     </android.support.v4.widget.SwipeRefreshLayout>
-</FrameLayout>
+</LinearLayout>

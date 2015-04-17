@@ -1,6 +1,10 @@
 package com.miscell.glasswiping.utils;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -8,10 +12,13 @@ import android.graphics.Canvas;
 import android.graphics.RectF;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.util.TypedValue;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.miscell.glasswiping.R;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -22,6 +29,8 @@ import java.io.IOException;
  * Created by chenjishi on 15/3/11.
  */
 public class Utils {
+    public static final int REQUEST_CODE_GALLERY = 1;
+    public static final int REQUEST_CODE_CAMERA = 2;
 
     public static void storeImage(Bitmap image, File pictureFile) {
         if (pictureFile == null) {
@@ -101,5 +110,33 @@ public class Utils {
             }
         }
         return false;
+    }
+
+    public static void choosePhoto(final Context context, final Uri imageUri) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setItems(new CharSequence[]{context.getString(R.string.camera),
+                        context.getString(R.string.photo_album)},
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == 0) {
+                            startCamera(context, imageUri);
+                        } else {
+                            startGallery(context);
+                        }
+                    }
+                }).show();
+    }
+
+    public static void startCamera(Context context, Uri imageUri) {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        ((Activity) context).startActivityForResult(intent, REQUEST_CODE_CAMERA);
+    }
+
+    public static void startGallery(Context context) {
+        Intent intent = new Intent(Intent.ACTION_PICK,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        ((Activity) context).startActivityForResult(intent, REQUEST_CODE_GALLERY);
     }
 }

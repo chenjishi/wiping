@@ -14,4 +14,6 @@
     <string name="email_choose">选择邮箱</string>
     <string name="scrap_text">刮开有惊喜</string>
     <string name="loading_tips">图片加载中&#8230;</string>
+    <string name="camera">拍照</string>
+    <string name="photo_album">从手机相册选择</string>
 </resources>

@@ -60,6 +60,8 @@ public class GlassWipeActivity extends Activity implements ImageLoader.ImageList
 
         String imageUrl = bundle.getString("imgsrc");
 
+        findViewById(R.id.tip_text).setVisibility(View.VISIBLE);
+
         mImageView = (ImageView) findViewById(R.id.image_view);
         NetworkRequest.getImageLoader().get(imageUrl, this);
 

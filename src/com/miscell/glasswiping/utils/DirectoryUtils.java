@@ -2,6 +2,7 @@ package com.miscell.glasswiping.utils;
 
 import android.content.Context;
 import android.os.Environment;
+import android.util.Log;
 
 import java.io.File;
 
@@ -12,15 +13,19 @@ public class DirectoryUtils {
 
     public static void init(Context context) {
         mkDirs(getCacheDirectory(context));
+        mkDirs(getTempCacheDir());
     }
 
     public static void mkDirs(String dirPath) {
         File file = new File(dirPath);
-        if (!file.exists()) file.mkdirs();
+        if (!file.exists()) {
+            boolean success = file.mkdirs();
+            Log.i("test", "#dir " + dirPath + " success " + success);
+        }
     }
 
     public static String getTempCacheDir() {
-        return getSDCardDirectory() + "/beauty/";
+        return getSDCardDirectory() + "/meizi/";
     }
 
     public static String getSDCardDirectory() {
