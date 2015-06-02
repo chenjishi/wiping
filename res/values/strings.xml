@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">GlassWipe</string>
+    <string name="app_name">擦玻璃</string>
     <string name="hello_world">Hello world!</string>
     <string name="loading">正在加载…</string>
     <string name="page_next">显示下一页</string>
@@ -16,4 +16,5 @@
     <string name="loading_tips">图片加载中&#8230;</string>
     <string name="camera">拍照</string>
     <string name="photo_album">从手机相册选择</string>
+    <string name="cancel">取消</string>
 </resources>

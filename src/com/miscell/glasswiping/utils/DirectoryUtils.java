@@ -18,14 +18,11 @@ public class DirectoryUtils {
 
     public static void mkDirs(String dirPath) {
         File file = new File(dirPath);
-        if (!file.exists()) {
-            boolean success = file.mkdirs();
-            Log.i("test", "#dir " + dirPath + " success " + success);
-        }
+        if (!file.exists()) file.mkdirs();
     }
 
     public static String getTempCacheDir() {
-        return getSDCardDirectory() + "/meizi/";
+        return getSDCardDirectory() + "/wiping/";
     }
 
     public static String getSDCardDirectory() {

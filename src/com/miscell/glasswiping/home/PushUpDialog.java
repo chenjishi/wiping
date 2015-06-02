@@ -9,14 +9,15 @@ import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
-import jy.DangMaLa.R;
-import static jy.DangMaLa.utils.Constants.REQUEST_CODE_CAMERA;
-import static jy.DangMaLa.utils.Constants.REQUEST_CODE_GALLERY;
+import com.miscell.glasswiping.R;
 
 /**
  * Created by chenjishi on 15/4/22.
  */
 public class PushUpDialog extends Dialog implements View.OnClickListener {
+    public static final int REQUEST_CODE_GALLERY = 1;
+    public static final int REQUEST_CODE_CAMERA = 2;
+
     private Context mContext;
     protected Uri mImageUri;
 

@@ -10,7 +10,6 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,10 @@ import com.miscell.glasswiping.AboutActivity;
 import com.miscell.glasswiping.BaseActivity;
 import com.miscell.glasswiping.DetailsActivity;
 import com.miscell.glasswiping.R;
-import com.miscell.glasswiping.utils.*;
+import com.miscell.glasswiping.utils.DirectoryUtils;
+import com.miscell.glasswiping.utils.Feed;
+import com.miscell.glasswiping.utils.NetworkRequest;
+import com.miscell.glasswiping.utils.Utils;
 import com.miscell.glasswiping.volley.Response;
 import com.miscell.glasswiping.volley.VolleyError;
 import org.jsoup.Jsoup;
@@ -72,14 +74,7 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
         gridView.setOnItemClickListener(this);
         gridView.setOnScrollListener(this);
 
-        //clear temp files, such as shared image or temp upgrade apk
-        File tempFile = new File(DirectoryUtils.getTempCacheDir());
-        if (tempFile.exists()) {
-            FileUtils.delete(tempFile);
-        }
-
         request();
-
     }
 
     @Override
@@ -187,7 +182,8 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
         }
 
         mImageUri = Uri.fromFile(file);
-        Utils.choosePhoto(this, mImageUri);
+        PushUpDialog dialog = new PushUpDialog(this, mImageUri);
+        dialog.show();
     }
 
     @Override
@@ -217,8 +213,6 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
         super.onActivityResult(requestCode, resultCode, data);
         if (RESULT_OK != resultCode) return;
 
-        Log.i("test", "# onActivityResult " + requestCode);
-
         if (requestCode == Utils.REQUEST_CODE_CAMERA) {
             String filePath = mImageUri.getPath();
             handleImage(filePath);
@@ -229,7 +223,10 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
     }
 
     private void handleImage(String filePath) {
-        Log.i("test", "#file path " + filePath);
+        if (TextUtils.isEmpty(filePath)) return;
 
+        Intent intent = new Intent(this, PhotoActivity.class);
+        intent.putExtra(PhotoActivity.IMAGE_PATH, filePath);
+        startActivity(intent);
     }
 }

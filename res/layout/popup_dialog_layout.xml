@@ -11,7 +11,7 @@
             android:gravity="center"
             android:textSize="15sp"
             android:text="@string/camera"
-            android:textColor="@color/main_text_color"/>
+            android:textColor="#191919"/>
     <TextView
             android:id="@+id/btn_gallery"
             android:layout_width="match_parent"
@@ -21,7 +21,7 @@
             android:gravity="center"
             android:textSize="15sp"
             android:text="@string/photo_album"
-            android:textColor="@color/main_text_color"/>
+            android:textColor="#191919"/>
     <TextView
             android:id="@+id/btn_cancel"
             android:layout_width="match_parent"
@@ -31,5 +31,5 @@
             android:gravity="center"
             android:textSize="15sp"
             android:text="@string/cancel"
-            android:textColor="@color/main_text_color"/>
+            android:textColor="#191919"/>
 </LinearLayout>
