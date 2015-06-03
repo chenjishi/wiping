@@ -74,11 +74,8 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
         gridView.setOnItemClickListener(this);
         gridView.setOnScrollListener(this);
 
+        showLoadingView();
         request();
-    }
-
-    @Override
-    public void onBackClicked(View v) {
     }
 
     @Override
@@ -90,6 +87,7 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
     public void onErrorResponse(VolleyError error) {
         mSwipeRefreshLayout.setRefreshing(false);
         mIsLoading = false;
+        hideLoadingView();
     }
 
     @Override
@@ -105,6 +103,7 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
 
         mSwipeRefreshLayout.setRefreshing(false);
         mIsLoading = false;
+        hideLoadingView();
     }
 
     @Override

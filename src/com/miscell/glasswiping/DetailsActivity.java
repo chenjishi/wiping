@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,7 +38,13 @@ public class DetailsActivity extends BaseActivity implements Response.Listener<S
         setContentView(R.layout.activity_layout_details);
 
         Feed feed = getIntent().getParcelableExtra("feed");
-        setTitle(feed.title);
+        String title = feed.title;
+        if (!TextUtils.isEmpty(title)) {
+            if (title.length() > 10) {
+                title = title.substring(0, 10);
+            }
+            setTitle(title);
+        }
 
         mListAdapter = new ImageListAdapter(this);
 
@@ -47,12 +52,13 @@ public class DetailsActivity extends BaseActivity implements Response.Listener<S
         listView.setAdapter(mListAdapter);
         listView.setOnItemClickListener(this);
 
+        showLoadingView();
         NetworkRequest.get(feed.url, this, this);
     }
 
     @Override
     public void onErrorResponse(VolleyError error) {
-
+        hideLoadingView();
     }
 
     @Override
@@ -77,6 +83,7 @@ public class DetailsActivity extends BaseActivity implements Response.Listener<S
                 mListAdapter.addData(imageList);
             }
         }
+        hideLoadingView();
     }
 
     private static class ImageListAdapter extends BaseAdapter {
@@ -149,7 +156,6 @@ public class DetailsActivity extends BaseActivity implements Response.Listener<S
                             lp.height = mImageWidth * bmp.getHeight() / bmp.getWidth();
                             long t = System.currentTimeMillis();
                             Bitmap blurBitmap = Blur.fastblur(mContext, bmp, 20);
-                            Log.i("test", "time " + (System.currentTimeMillis() - t) + " width " + blurBitmap.getWidth());
                             imageView.setLayoutParams(lp);
                             imageView.setImageBitmap(blurBitmap);
                             mBitmaps.put(position, blurBitmap);

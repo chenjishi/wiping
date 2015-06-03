@@ -11,7 +11,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginRight="8dp"
-            android:text="试试上传照片"
+            android:text="@string/upload_photo"
             android:textColor="@color/text_regular"
             android:textSize="16sp"
             android:gravity="center"/>

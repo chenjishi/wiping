@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.miscell.glasswiping"
-          android:versionCode="1"
+          android:versionCode="2"
           android:versionName="1.0">
     <uses-sdk android:minSdkVersion="11" android:targetSdkVersion="21"/>
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -24,5 +24,7 @@
                   android:theme="@style/FullScreenStyle"/>
         <activity android:name=".home.PhotoActivity"
                   android:theme="@style/FullScreenStyle"/>
+        <activity android:name=".AboutActivity"
+                  android:screenOrientation="portrait"/>
     </application>
 </manifest>

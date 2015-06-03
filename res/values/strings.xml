@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">擦玻璃</string>
+    <string name="app_name">擦玻璃特效</string>
     <string name="hello_world">Hello world!</string>
     <string name="loading">正在加载…</string>
     <string name="page_next">显示下一页</string>
@@ -17,4 +17,7 @@
     <string name="camera">拍照</string>
     <string name="photo_album">从手机相册选择</string>
     <string name="cancel">取消</string>
+    <string name="upload_photo">试试上传照片</string>
+    <string name="network_invalid">无网络连接，请检查网络设置</string>
+    <string name="server_error">服务器返回错误，请稍后再试</string>
 </resources>

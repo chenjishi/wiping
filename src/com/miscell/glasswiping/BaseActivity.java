@@ -2,13 +2,13 @@ package com.miscell.glasswiping;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.view.*;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import com.flurry.android.FlurryAgent;
+import com.miscell.glasswiping.home.LoadingView;
+import com.miscell.glasswiping.utils.Utils;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
@@ -20,6 +20,8 @@ public class BaseActivity extends FragmentActivity {
     protected int mTitleResId;
     protected float mDensity;
     protected LayoutInflater mInflater;
+    private LoadingView mLoadingView;
+    protected FrameLayout mRootView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,17 +32,17 @@ public class BaseActivity extends FragmentActivity {
 
     @Override
     public void setContentView(int layoutResID) {
-        FrameLayout contentView = (FrameLayout) findViewById(android.R.id.content);
-        contentView.setBackgroundColor(0xFFF0F0F0);
+        mRootView = (FrameLayout) findViewById(android.R.id.content);
+        mRootView.setBackgroundColor(0xFFF0F0F0);
 
         if (!mHideTitle) {
             int resId = mTitleResId == 0 ? R.layout.base_title_layout : mTitleResId;
-            mInflater.inflate(resId, contentView);
+            mInflater.inflate(resId, mRootView);
         }
 
         FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT, Gravity.BOTTOM);
         lp.topMargin = mHideTitle ? 0 : dp2px(48);
-        contentView.addView(mInflater.inflate(layoutResID, null), lp);
+        mRootView.addView(mInflater.inflate(layoutResID, null), lp);
     }
 
     protected void setContentView(int layoutResID, int titleResId) {
@@ -65,6 +67,57 @@ public class BaseActivity extends FragmentActivity {
 
     public void onRightButtonClicked(View v) {
 
+    }
+
+    protected void showLoadingView() {
+        showLoadingView(0, 0xFFF0F0F0);
+    }
+
+    protected void showLoadingView(int margin, int color) {
+        if (null == mLoadingView) {
+            mLoadingView = new LoadingView(this);
+            mLoadingView.setBackgroundColor(color);
+        }
+
+        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
+                MATCH_PARENT, MATCH_PARENT);
+        lp.topMargin = dp2px(48 + margin);
+        lp.gravity = Gravity.BOTTOM;
+        mLoadingView.setLayoutParams(lp);
+
+        ViewParent viewParent = mLoadingView.getParent();
+        if (null != viewParent) {
+            ((ViewGroup) viewParent).removeView(mLoadingView);
+        }
+
+        mRootView.addView(mLoadingView);
+    }
+
+    protected void hideLoadingView() {
+        if (null != mLoadingView) {
+            ViewParent viewParent = mLoadingView.getParent();
+            if (null != viewParent) {
+                ((ViewGroup) viewParent).removeView(mLoadingView);
+            }
+            mLoadingView = null;
+        }
+    }
+
+    protected void setError(String tips) {
+        if (null != mLoadingView) {
+            mLoadingView.setError(tips);
+        }
+    }
+
+    protected void setError() {
+        if (null != mLoadingView) {
+            int resId = R.string.network_invalid;
+            if (Utils.isNetworkConnected(this)) {
+                resId = R.string.server_error;
+            }
+
+            mLoadingView.setError(getString(resId));
+        }
     }
 
     @Override
