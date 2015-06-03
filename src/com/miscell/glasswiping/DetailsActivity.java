@@ -130,22 +130,27 @@ public class DetailsActivity extends BaseActivity implements Response.Listener<S
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            View itemView;
+            final ViewHolder holder;
             if (null == convertView) {
-                itemView = mInflater.inflate(R.layout.list_image_item, parent, false);
+                convertView = mInflater.inflate(R.layout.list_image_item, parent, false);
+                holder = new ViewHolder();
+
+                holder.imageView = (ImageView) convertView.findViewById(R.id.image_view);
+                holder.coverView = convertView.findViewById(R.id.cover_view);
+
+                convertView.setTag(holder);
             } else {
-                itemView = convertView;
+                holder = (ViewHolder) convertView.getTag();
             }
 
-            final ImageView imageView = (ImageView) itemView.findViewById(R.id.image_view);
-
-            final RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) imageView.getLayoutParams();
+            final FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) holder.imageView.getLayoutParams();
             Bitmap bitmap = mBitmaps.get(position);
             if (null != bitmap) {
                 lp.width = mImageWidth;
                 lp.height = mImageWidth * bitmap.getHeight() / bitmap.getWidth();
-                imageView.setLayoutParams(lp);
-                imageView.setImageBitmap(bitmap);
+                holder.imageView.setLayoutParams(lp);
+                holder.imageView.setImageBitmap(bitmap);
+                holder.coverView.setLayoutParams(lp);
             } else {
                 mImageLoader.get(mImageList.get(position), new ImageLoader.ImageListener() {
                     @Override
@@ -154,13 +159,12 @@ public class DetailsActivity extends BaseActivity implements Response.Listener<S
                         if (null != bmp) {
                             lp.width = mImageWidth;
                             lp.height = mImageWidth * bmp.getHeight() / bmp.getWidth();
-                            long t = System.currentTimeMillis();
                             Bitmap blurBitmap = Blur.fastblur(mContext, bmp, 20);
-                            imageView.setLayoutParams(lp);
-                            imageView.setImageBitmap(blurBitmap);
+                            holder.imageView.setLayoutParams(lp);
+                            holder.imageView.setImageBitmap(blurBitmap);
                             mBitmaps.put(position, blurBitmap);
+                            holder.coverView.setLayoutParams(lp);
                         }
-
                     }
 
                     @Override
@@ -170,8 +174,14 @@ public class DetailsActivity extends BaseActivity implements Response.Listener<S
                 }, 400, 0);
             }
 
-            return itemView;
+            return convertView;
         }
+    }
+
+    private static final class ViewHolder {
+        public ImageView imageView;
+
+        public View coverView;
     }
 
     @Override
