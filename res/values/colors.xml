@@ -3,4 +3,5 @@
     <color name="text_regular">#FF333333</color>
     <color name="text_lighter">#FF666666</color>
     <color name="text_weak">#FF999999</color>
+    <color name="highlight_color">#66CCCCCC</color>
 </resources>

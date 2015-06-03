@@ -21,4 +21,10 @@
     <string name="network_invalid">无网络连接，请检查网络设置</string>
     <string name="server_error">服务器返回错误，请稍后再试</string>
     <string name="click_text">点击查看高清大图</string>
+    <string name="wechat_not_install">您还没有安装微信，无法使用微信分享</string>
+    <string name="weibo_not_install">您还没有安装新浪微博，无法使用微博分享</string>
+    <string name="wechat_not_support">您的微信版本过低，不支持该分享功能</string>
+    <string name="wechat_timeline_not_support">您的微信版本过低，不支持朋友圈分享</string>
+    <string name="share_description">快邀请你的朋友们来一块擦擦玻璃吧^_^</string>
+    <string name="generating_image">正在生成图片&#8230;</string>
 </resources>
