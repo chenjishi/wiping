@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import com.flurry.android.FlurryAgent;
 import com.miscell.glasswiping.BaseActivity;
 import com.miscell.glasswiping.R;
 import com.miscell.glasswiping.raindrops.RainDropsView;
@@ -201,6 +202,8 @@ public class PhotoActivity extends BaseActivity implements View.OnClickListener 
                 generateImage();
             }
         }.start();
+
+        FlurryAgent.logEvent("share_button_click");
     }
 
     private int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {

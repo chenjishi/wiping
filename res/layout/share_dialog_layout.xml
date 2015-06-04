@@ -25,4 +25,22 @@
             android:paddingBottom="12dp"
             android:src="@drawable/ic_pengyouquan"
             android:background="@drawable/hightlight_bkg"/>
+    <ImageButton
+            android:id="@+id/share_weibo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:src="@drawable/ic_weibo"
+            android:background="@drawable/hightlight_bkg"/>
+    <ImageButton
+            android:id="@+id/save_local"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:src="@drawable/ic_download"
+            android:background="@drawable/hightlight_bkg"/>
 </LinearLayout>
