@@ -25,7 +25,7 @@ public class RainDropsView extends View implements ValueAnimator.AnimatorUpdateL
     private static final int MAXIMUM_DROPS = 60;
     private static final int TYPE_FALLING = 0;
     private static final int TYPE_SCALE = 1;
-    private Bitmap mDropsBitmap, mBlurBitmap;
+    private Bitmap mDropsBitmap, mBlurBitmap, mCoverBitmap;
 
     private final Rect mSrcRect = new Rect();
     private final RectF mDstRect = new RectF();
@@ -86,6 +86,7 @@ public class RainDropsView extends View implements ValueAnimator.AnimatorUpdateL
         options.inScaled = false;
 
         mDropsBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.raindrops, options);
+        mCoverBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.rain_tile2, options);
 
         mAnimator = ValueAnimator.ofFloat(0, 1);
         mAnimator.setRepeatCount(ValueAnimator.INFINITE);
@@ -97,9 +98,15 @@ public class RainDropsView extends View implements ValueAnimator.AnimatorUpdateL
         Bitmap blurredBmp = BitmapFactory.decodeFile(filePath);
         if (null == blurredBmp) return;
 
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setAlpha(98);
+
         Bitmap bitmap = Utils.scaleCenterCrop(blurredBmp, mWidth, mHeight);
         mDstRect.set(0, 0, mWidth, mHeight);
         mCanvas.drawBitmap(bitmap, null, mDstRect, null);
+        mCanvas.drawBitmap(mCoverBitmap, new Rect(0, 0, mCoverBitmap.getWidth(),
+                mCoverBitmap.getHeight()), mDstRect, paint);
+
         bitmap.recycle();
         blurredBmp.recycle();
 
