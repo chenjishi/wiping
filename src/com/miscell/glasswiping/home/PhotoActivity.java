@@ -31,7 +31,7 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
  * Created by chenjishi on 15/4/1.
  */
 public class PhotoActivity extends BaseActivity implements View.OnClickListener {
-    private static final int MAX_IMAGE_WIDTH = 960;
+    private static final int MAX_IMAGE_WIDTH = 1080;
     private static final String BLURRED_IMG_NAME = "blurred_image.png";
 
     private static final int SCALED_WIDTH = 400;
