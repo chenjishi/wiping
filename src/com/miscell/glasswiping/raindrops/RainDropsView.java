@@ -113,6 +113,17 @@ public class RainDropsView extends View implements ValueAnimator.AnimatorUpdateL
         if (!mAnimator.isRunning()) mAnimator.start();
     }
 
+    public void setupView() {
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setAlpha(200);
+
+        mDstRect.set(0, 0, mWidth, mHeight);
+        mCanvas.drawBitmap(mCoverBitmap, new Rect(0, 0, mCoverBitmap.getWidth(),
+                mCoverBitmap.getHeight()), mDstRect, paint);
+
+        if (!mAnimator.isRunning()) mAnimator.start();
+    }
+
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();

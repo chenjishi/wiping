@@ -33,7 +33,6 @@ public class BaseActivity extends FragmentActivity {
     @Override
     public void setContentView(int layoutResID) {
         mRootView = (FrameLayout) findViewById(android.R.id.content);
-        mRootView.setBackgroundColor(0xFFF0F0F0);
 
         if (!mHideTitle) {
             int resId = mTitleResId == 0 ? R.layout.base_title_layout : mTitleResId;
