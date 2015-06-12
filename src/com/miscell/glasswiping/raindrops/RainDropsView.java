@@ -104,8 +104,8 @@ public class RainDropsView extends View implements ValueAnimator.AnimatorUpdateL
         Bitmap bitmap = Utils.scaleCenterCrop(blurredBmp, mWidth, mHeight);
         mDstRect.set(0, 0, mWidth, mHeight);
         mCanvas.drawBitmap(bitmap, null, mDstRect, null);
-        mCanvas.drawBitmap(mCoverBitmap, new Rect(0, 0, mCoverBitmap.getWidth(),
-                mCoverBitmap.getHeight()), mDstRect, paint);
+//        mCanvas.drawBitmap(mCoverBitmap, new Rect(0, 0, mCoverBitmap.getWidth(),
+//                mCoverBitmap.getHeight()), mDstRect, paint);
 
         bitmap.recycle();
         blurredBmp.recycle();
@@ -114,12 +114,12 @@ public class RainDropsView extends View implements ValueAnimator.AnimatorUpdateL
     }
 
     public void setupView() {
-        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint.setAlpha(200);
+//        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+//        paint.setAlpha(200);
 
-        mDstRect.set(0, 0, mWidth, mHeight);
-        mCanvas.drawBitmap(mCoverBitmap, new Rect(0, 0, mCoverBitmap.getWidth(),
-                mCoverBitmap.getHeight()), mDstRect, paint);
+//        mDstRect.set(0, 0, mWidth, mHeight);
+//        mCanvas.drawBitmap(mCoverBitmap, new Rect(0, 0, mCoverBitmap.getWidth(),
+//                mCoverBitmap.getHeight()), mDstRect, paint);
 
         if (!mAnimator.isRunning()) mAnimator.start();
     }

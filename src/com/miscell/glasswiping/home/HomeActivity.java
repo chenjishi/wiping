@@ -11,8 +11,10 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.TextView;
 import com.miscell.glasswiping.AboutActivity;
 import com.miscell.glasswiping.BaseActivity;
+import com.miscell.glasswiping.Config;
 import com.miscell.glasswiping.R;
 import com.miscell.glasswiping.raindrops.RainDropsView;
 import com.miscell.glasswiping.utils.DirectoryUtils;
@@ -35,6 +37,19 @@ public class HomeActivity extends BaseActivity implements LoaderManager.LoaderCa
 
         RainDropsView rainDropsView = (RainDropsView) findViewById(R.id.rain_drop_view);
         rainDropsView.setupView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TextView textView = (TextView) findViewById(R.id.btn_browse);
+        final boolean browseMode = Config.getBrowseMode(this);
+        if (browseMode) {
+            textView.setOnClickListener(mImageClickListener);
+            textView.setVisibility(View.VISIBLE);
+        } else {
+            textView.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -113,4 +128,12 @@ public class HomeActivity extends BaseActivity implements LoaderManager.LoaderCa
             getSupportLoaderManager().initLoader(LOADER_ID, null, this);
         }
     }
+
+    private final View.OnClickListener mImageClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
+    };
 }

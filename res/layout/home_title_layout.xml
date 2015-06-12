@@ -14,6 +14,7 @@
             android:src="@drawable/ic_more"/>
 
     <ImageButton
+            android:id="@+id/btn_photo"
             android:layout_width="48dp"
             android:layout_height="match_parent"
             android:layout_toLeftOf="@id/btn_more"
@@ -21,5 +22,16 @@
             android:clickable="true"
             android:onClick="onCameraClicked"
             android:src="@drawable/ic_camera"/>
+    <TextView
+            android:id="@+id/btn_browse"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/hightlight_bkg"
+            android:layout_toLeftOf="@id/btn_photo"
+            android:gravity="center"
+            android:visibility="gone"
+            android:text="@string/image_browse"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"/>
 
 </RelativeLayout>

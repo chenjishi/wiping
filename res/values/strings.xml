@@ -25,4 +25,6 @@
     <string name="weibo_share_fail">Share to Webo Fail!</string>
     <string name="photo_save_fail">Image Save Failed, Try Again!</string>
     <string name="photo_save_success">Saved To Gallery</string>
+    <string name="image_browse">Image</string>
+    <string name="easter_egg_tip">you triggered easter eggs!</string>
 </resources>

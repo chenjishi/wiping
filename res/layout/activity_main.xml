@@ -2,19 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="vertical">
-    <TextView
-            android:id="@+id/photo_upload"
-            android:layout_width="match_parent"
-            android:layout_height="62dp"
-            android:background="@drawable/card_bkg"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="8dp"
-            android:text="@string/upload_photo"
-            android:textColor="@color/text_regular"
-            android:textSize="16sp"
-            android:gravity="center"/>
+              android:orientation="vertical"
+              android:background="#F0F0F0">
     <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipe_layout"
             android:layout_width="match_parent"

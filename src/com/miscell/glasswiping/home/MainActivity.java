@@ -1,13 +1,7 @@
 package com.miscell.glasswiping.home;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -16,14 +10,11 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import com.miscell.glasswiping.AboutActivity;
 import com.miscell.glasswiping.BaseActivity;
 import com.miscell.glasswiping.DetailsActivity;
 import com.miscell.glasswiping.R;
-import com.miscell.glasswiping.utils.DirectoryUtils;
 import com.miscell.glasswiping.utils.Feed;
 import com.miscell.glasswiping.utils.NetworkRequest;
-import com.miscell.glasswiping.utils.Utils;
 import com.miscell.glasswiping.volley.Response;
 import com.miscell.glasswiping.volley.VolleyError;
 import org.jsoup.Jsoup;
@@ -31,15 +22,10 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainActivity extends BaseActivity implements AdapterView.OnItemClickListener, Response.Listener<String>,
-        Response.ErrorListener, SwipeRefreshLayout.OnRefreshListener, AbsListView.OnScrollListener,
-        LoaderManager.LoaderCallbacks<Cursor> {
-    protected Uri mImageUri;
-    private static final int LOADER_ID = 10012;
+        Response.ErrorListener, SwipeRefreshLayout.OnRefreshListener, AbsListView.OnScrollListener {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private FeedListAdapter mListAdapter;
 
@@ -51,9 +37,6 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        setRightButtonIcon(R.drawable.ic_menu_more);
-        findViewById(R.id.ic_arrow).setVisibility(View.GONE);
-
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_layout);
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
@@ -62,13 +45,6 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
         ((ViewGroup) gridView.getParent()).addView(emptyView);
         gridView.setEmptyView(emptyView);
 
-        findViewById(R.id.photo_upload).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPhotoChooser();
-            }
-        });
-
         mListAdapter = new FeedListAdapter(this);
         gridView.setAdapter(mListAdapter);
         gridView.setOnItemClickListener(this);
@@ -76,11 +52,6 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
 
         showLoadingView();
         request();
-    }
-
-    @Override
-    public void onRightButtonClicked(View v) {
-        startActivity(new Intent(this, AboutActivity.class));
     }
 
     @Override
@@ -171,61 +142,5 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
         }
 
         return feedList;
-    }
-
-    private void showPhotoChooser() {
-        File file = new File(DirectoryUtils.getTempCacheDir(), "Pic.jpg");
-        try {
-            if (!file.exists()) file.createNewFile();
-        } catch (IOException e) {
-        }
-
-        mImageUri = Uri.fromFile(file);
-        PushUpDialog dialog = new PushUpDialog(this, mImageUri);
-        dialog.show();
-    }
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        String[] projection = {MediaStore.Images.Media.DATA};
-        return new CursorLoader(this, mImageUri, projection, null, null, null);
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        if (null != cursor) {
-            int imageIndex = cursor.getColumnIndex(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            String filePath = cursor.getString(imageIndex);
-            handleImage(filePath);
-        }
-        getSupportLoaderManager().destroyLoader(LOADER_ID);
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (RESULT_OK != resultCode) return;
-
-        if (requestCode == Utils.REQUEST_CODE_CAMERA) {
-            String filePath = mImageUri.getPath();
-            handleImage(filePath);
-        } else if (requestCode == Utils.REQUEST_CODE_GALLERY) {
-            mImageUri = data.getData();
-            getSupportLoaderManager().initLoader(LOADER_ID, null, this);
-        }
-    }
-
-    private void handleImage(String filePath) {
-        if (TextUtils.isEmpty(filePath)) return;
-
-        Intent intent = new Intent(this, PhotoActivity.class);
-        intent.putExtra(PhotoActivity.IMAGE_PATH, filePath);
-        startActivity(intent);
     }
 }

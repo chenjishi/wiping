@@ -25,4 +25,6 @@
     <string name="weibo_share_fail">新浪微博分享失败!</string>
     <string name="photo_save_fail">图片保持出错，请重试!</string>
     <string name="photo_save_success">已保存至相册</string>
+    <string name="image_browse">图片</string>
+    <string name="easter_egg_tip">你打开了彩蛋！</string>
 </resources>

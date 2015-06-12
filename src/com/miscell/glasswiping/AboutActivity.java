@@ -68,6 +68,16 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
         }
     }
 
+    private int mClickCount;
+
+    public void onVersionTextClicked(View view) {
+        mClickCount += 1;
+        if (mClickCount >= 8) {
+            Config.saveBrowseMode(this, true);
+            Utils.showToast(this, R.string.easter_egg_tip);
+        }
+    }
+
     private void sendFeedback() {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
