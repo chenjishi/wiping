@@ -28,7 +28,8 @@
         <activity android:name=".DetailsActivity"
                   android:screenOrientation="portrait"/>
         <activity android:name=".raindrops.GlassWipeActivity"
-                  android:theme="@style/FullScreenStyle"/>
+                  android:theme="@style/FullScreenStyle"
+                  android:configChanges="orientation|screenSize"/>
         <activity android:name=".home.PhotoActivity"
                   android:theme="@style/FullScreenStyle"/>
         <activity android:name=".AboutActivity"

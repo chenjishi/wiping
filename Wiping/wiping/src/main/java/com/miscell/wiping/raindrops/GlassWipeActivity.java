@@ -1,11 +1,13 @@
 package com.miscell.wiping.raindrops;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -52,10 +54,23 @@ public class GlassWipeActivity extends Activity implements ImageLoader.ImageList
                 decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
             }
         }
-        setContentView(R.layout.activity_wipe);
 
         Bundle bundle = getIntent().getExtras();
-        if (null == bundle) return;
+        int width = bundle.getInt("width");
+        int height = bundle.getInt("height");
+        Log.i("test", "width " + width + " height " + height);
+
+        if (width <= height) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        } else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
+
+        setContentView(R.layout.activity_wipe);
+
+
+
+        mImageView = (ImageView) findViewById(R.id.image_view);
 
         String imageUrl = bundle.getString("imgsrc");
 

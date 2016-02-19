@@ -3,6 +3,7 @@ package com.miscell.wiping;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +21,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.miscell.wiping.raindrops.GlassWipeActivity;
 import com.miscell.wiping.utils.Blur;
 import com.miscell.wiping.utils.Feed;
+import com.miscell.wiping.utils.ImageInfo;
 import com.miscell.wiping.utils.NetworkRequest;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -55,6 +57,7 @@ public class DetailsActivity extends BaseActivity implements Response.Listener<S
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.image_list_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(mListAdapter);
+        recyclerView.addItemDecoration(new SpaceDecoration(this));
 
         showLoadingView();
         NetworkRequest.get(feed.url, this, this);
@@ -74,12 +77,14 @@ public class DetailsActivity extends BaseActivity implements Response.Listener<S
             Element content = document.getElementById("picture");
             if (null == content) return;
 
-            ArrayList<String> imageList = new ArrayList<String>();
+            ArrayList<ImageInfo> imageList = new ArrayList<>();
             Elements images = content.select("img");
             for (Element img : images) {
                 String url = img.attr("src");
                 if (!TextUtils.isEmpty(url)) {
-                    imageList.add(url);
+                    ImageInfo imageInfo = new ImageInfo();
+                    imageInfo.imageUrl = url;
+                    imageList.add(imageInfo);
                 }
             }
 
@@ -92,7 +97,7 @@ public class DetailsActivity extends BaseActivity implements Response.Listener<S
 
     private static class ImageListAdapter extends RecyclerView.Adapter<ItemViewHolder> {
 
-        private final List<String> mImageList = new ArrayList<>();
+        private final List<ImageInfo> mImageList = new ArrayList<>();
         private LayoutInflater mInflater;
         private ImageLoader mImageLoader;
 
@@ -112,9 +117,9 @@ public class DetailsActivity extends BaseActivity implements Response.Listener<S
             mImageWidth = metrics.widthPixels - 2 * ((int) (density * 8 + .5f));
         }
 
-        public void addData(ArrayList<String> dataList) {
+        public void addData(List<ImageInfo> dataList) {
             mImageList.addAll(dataList);
-            mBitmaps = new SparseArray<Bitmap>(mImageList.size());
+            mBitmaps = new SparseArray<>(mImageList.size());
             notifyDataSetChanged();
         }
 
@@ -126,6 +131,9 @@ public class DetailsActivity extends BaseActivity implements Response.Listener<S
 
         @Override
         public void onBindViewHolder(final ItemViewHolder holder, final int position) {
+
+            final ImageInfo imageInfo = mImageList.get(position);
+
             final FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) holder.imageView.getLayoutParams();
             Bitmap bitmap = mBitmaps.get(position);
             if (null != bitmap) {
@@ -135,13 +143,16 @@ public class DetailsActivity extends BaseActivity implements Response.Listener<S
                 holder.imageView.setImageBitmap(bitmap);
                 holder.coverView.setLayoutParams(lp);
             } else {
-                mImageLoader.get(mImageList.get(position), new ImageLoader.ImageListener() {
+                mImageLoader.get(imageInfo.imageUrl, new ImageLoader.ImageListener() {
                     @Override
                     public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
                         Bitmap bmp = response.getBitmap();
                         if (null != bmp) {
                             lp.width = mImageWidth;
                             lp.height = mImageWidth * bmp.getHeight() / bmp.getWidth();
+                            imageInfo.width = lp.width;
+                            imageInfo.height = lp.height;
+
                             Bitmap blurBitmap = Blur.fastblur(mContext, bmp, 20);
                             holder.imageView.setLayoutParams(lp);
                             holder.imageView.setImageBitmap(blurBitmap);
@@ -157,7 +168,7 @@ public class DetailsActivity extends BaseActivity implements Response.Listener<S
                 }, 400, 0);
             }
 
-            holder.itemLayout.setTag(position);
+            holder.itemLayout.setTag(imageInfo);
             holder.itemLayout.setOnClickListener(mOnClickListener);
         }
 
@@ -171,9 +182,11 @@ public class DetailsActivity extends BaseActivity implements Response.Listener<S
             public void onClick(View v) {
                 if (null == v.getTag()) return;
 
-                int index = (Integer) v.getTag();
+                ImageInfo imageInfo = (ImageInfo) v.getTag();
                 Intent intent = new Intent(mContext, GlassWipeActivity.class);
-                intent.putExtra("imgsrc", mImageList.get(index));
+                intent.putExtra("imgsrc", imageInfo.imageUrl);
+                intent.putExtra("width", imageInfo.width);
+                intent.putExtra("height", imageInfo.height);
                 mContext.startActivity(intent);
             }
         };
@@ -192,6 +205,26 @@ public class DetailsActivity extends BaseActivity implements Response.Listener<S
             itemLayout = (FrameLayout) itemView.findViewById(R.id.item_layout);
             imageView = (ImageView) itemView.findViewById(R.id.image_view);
             coverView = itemView.findViewById(R.id.cover_view);
+        }
+    }
+
+    private static class SpaceDecoration extends RecyclerView.ItemDecoration {
+
+        private float density;
+
+        public SpaceDecoration(Context context) {
+            density = context.getResources().getDisplayMetrics().density;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            int position = parent.getChildAdapterPosition(view);
+
+            if (position == RecyclerView.NO_POSITION) return;
+
+            int margin = (int) (density * 8);
+
+            outRect.set(margin, margin, margin, 0);
         }
     }
 }
