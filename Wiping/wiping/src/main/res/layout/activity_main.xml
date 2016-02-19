@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swipe_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F0F0F0">
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/image_grid_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+</android.support.v4.widget.SwipeRefreshLayout>
